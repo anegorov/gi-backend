@@ -13,14 +13,10 @@
   "dependencies": {
     "config": "^3.0.0",
     "express": "^4.16.4",
-    "helmet": "^3.15.0",
     "joi": "^14.3.0",
-    "morgan": "^1.9.1",
-    "pg-promise": "^8.5.3",
-    "predix-eventhub-client": "^1.0.3"
+    "morgan": "^1.9.1"
   },
   "engines": {
-    "node": ">=8.0.0",
-    "npm": ">=5.0.0"
+    "node": "10.13.0"
   }
 }
