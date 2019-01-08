@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
     isPublished: Boolean
 });
 
-const Product = mongoose.model('Products', courseSchema);
+const Product = mongoose.model('Products', productSchema);
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
