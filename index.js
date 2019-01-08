@@ -25,7 +25,7 @@ app.get('/api/docs/:id',(req,res) => {
    res.send(doc);
 });
 
-app.listen(process.env.PORT || 5000, function () {
+app.listen(process.env.PORT || 8080, function () {
   var port = server.address().port;
   console.log(`Express is working on port ${port}...`);
 });
