@@ -25,5 +25,7 @@ app.get('/api/docs/:id',(req,res) => {
    res.send(doc);
 });
 
-const port = process.env.port || 8080;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+app.listen(process.env.PORT || 5000, function () {
+  var port = server.address().port;
+  console.log(`Express is working on port ${port}...`);
+});
