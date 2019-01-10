@@ -68,11 +68,11 @@ app.get('/api/docs/:id',(req,res) => {
 });
 
 app.post('/api/create',(req,res) => {
-  const schema = {
+  const schema = Joi.object().keys({
     sname: Joi.string().min(3).required(),
     lname: Joi.string().min(3).required(),
     image: Joi.string().min(3).required()
-  };
+  });
 
   const result = Joi.validate(req.body, schema);
   if(result.error){
