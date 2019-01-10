@@ -78,8 +78,8 @@ app.post('/api/create',(req,res) => {
     link: Joi.string(),
     material: Joi.string(),
     pdfurl: Joi.string(),
-    //tags: [Joi.string()],
-    //images: [Joi.string()],
+    tags: Joi.array().items(Joi.string()),
+    images: Joi.array().items(Joi.string()),
     type: Joi.string(),
     isPublished: Joi.boolean()
   };
