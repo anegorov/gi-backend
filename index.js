@@ -36,22 +36,8 @@ const docs = [
     {id:3, name:'doc3'}
 ]
 
-async function createProduct(){
-  const product = new Product({
-    sname: 'Лошадка-качалка',
-    lname: 'Лошадка-качалка своими руками',
-    image: 'image url',
-    description: 'Крутая лошадка на все времена',
-    dtime: '6',
-    level: '3',
-    link: 'link-html-page',
-    material: 'фанера',
-    pdfurl: 'pdfurl-link',
-    tags: ['tag1','tag2'],
-    images: ['img1','img2'],
-    type: 'игрушка',
-    isPublished: true
-});
+async function createProduct(objProduct){
+  const product = new Product(objProduct);
   
   const result = await product.save();
   console.log(result);
@@ -81,8 +67,8 @@ app.get('/api/docs/:id',(req,res) => {
    res.send(doc);
 });
 
-app.get('/api/create',(req,res) => {
-  createProduct().then(
+app.post('/api/create',(req,res) => {
+  createProduct(req.body).then(
     (result) => res.send(result)
   );
 });
