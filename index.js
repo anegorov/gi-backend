@@ -83,7 +83,7 @@ app.get('/api/docs/:id',(req,res) => {
 
 app.get('/api/create',(req,res) => {
   createProduct().then(
-    (res) => res.send(res)
+    (result) => res.send(result)
   );
 });
 
