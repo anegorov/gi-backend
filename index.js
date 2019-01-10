@@ -9,9 +9,18 @@ mongoose.connect('mongodb://giuser:giuser1234@ds024748.mlab.com:24748/guidein', 
     .catch(err => console.error('Could not connect to MongoDB...', err));
 
 const productSchema = new mongoose.Schema({
-    name: String,
-    author: String,
+    sname: String,
+    lname: String,
+    image: String,
+    description: String,
+    dtime: String,
+    level: String,
+    link: String,
+    material: String,
+    pdfurl: String,
     tags: [String],
+    images: [String],
+    type: String,
     date: {type: Date, default: Date.now},
     isPublished: Boolean
 });
@@ -29,14 +38,24 @@ const docs = [
 
 async function createProduct(){
   const product = new Product({
-      name: 'Angular Course',
-      author: 'Mosh',
-      tags: ['angular','frontend'],
-      isPublished: true
-  });
+    sname: 'Лошадка-качалка',
+    lname: 'Лошадка-качалка своими руками',
+    image: 'image url',
+    description: 'Крутая лошадка на все времена',
+    dtime: '6',
+    level: '3',
+    link: 'link-html-page',
+    material: 'фанера',
+    pdfurl: 'pdfurl-link',
+    tags: ['tag1','tag2'],
+    images: ['img1','img2'],
+    type: 'игрушка',
+    isPublished: true
+});
   
   const result = await product.save();
   console.log(result);
+  return result;
 }
 
 async function getProduct(){
