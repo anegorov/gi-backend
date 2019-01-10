@@ -68,11 +68,21 @@ app.get('/api/docs/:id',(req,res) => {
 });
 
 app.post('/api/create',(req,res) => {
-  const schema = Joi.object().keys({
+  const schema = {
     sname: Joi.string().min(3).required(),
     lname: Joi.string().min(3).required(),
-    image: Joi.string().min(3).required()
-  });
+    image: Joi.string().min(3).required(),
+    description: Joi.string(),
+    dtime: Joi.string(),
+    level: Joi.string(),
+    link: Joi.string(),
+    material: Joi.string(),
+    pdfurl: Joi.string(),
+    tags: [Joi.string()],
+    images: [Joi.string()],
+    type: Joi.string(),
+    isPublished: Joi.boolean()
+  };
 
   const result = Joi.validate(req.body, schema);
   if(result.error){
