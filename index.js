@@ -46,10 +46,8 @@ async function createProduct(objProduct){
 
 async function getProduct(){
   const products = await Product
-      .find({author:'Mosh', isPublished:true})
-      .limit(10)
-      .sort({name: 1})
-      .select({name:1, tags:1});
+      .find();
+  return products;
   console.log(products);
 }
 
@@ -95,9 +93,9 @@ app.post('/api/create',(req,res) => {
   );
 });
 
-app.get('/api/get',(req,res) => {
+app.get('/api/products',(req,res) => {
   getProduct().then(
-    (res) => res.send(res)
+    (result) => res.send(result)
   );
 });
 
