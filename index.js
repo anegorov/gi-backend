@@ -1,6 +1,6 @@
+const {Product, validate} = require('./models/product');
 const express = require('express');
 const app = express();
-const Joi = require('joi');
 
 const mongoose = require('mongoose');
 
@@ -8,97 +8,68 @@ mongoose.connect('mongodb://giuser:giuser1234@ds024748.mlab.com:24748/guidein', 
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.error('Could not connect to MongoDB...', err));
 
-const productSchema = new mongoose.Schema({
-    sname: String,
-    lname: String,
-    image: String,
-    description: String,
-    dtime: String,
-    level: String,
-    link: String,
-    material: String,
-    pdfurl: String,
-    tags: [String],
-    images: [String],
-    type: String,
-    date: {type: Date, default: Date.now},
-    isPublished: Boolean
-});
-
-const Product = mongoose.model('Products', productSchema);
-
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
-const docs = [
-    {id:1, name:'doc1'},
-    {id:2, name:'doc2'},
-    {id:3, name:'doc3'}
-]
-
-async function createProduct(objProduct){
-  const product = new Product(objProduct);
-  
-  const result = await product.save();
-  console.log(result);
-  return result;
-}
-
-async function getProduct(){
-  const products = await Product
-      .find();
-  return products;
-  console.log(products);
-}
 
 app.get('/',(req,res) => {
    res.send('App developed by Andrey Egorov.');
 });
 
-app.get('/api/docs',(req,res) => {
-   res.send(docs);
-});
+app.post('/api/create', async (req,res) => {
+  
+  const {error} = validate(req.body)
+  if(error) return res.status(400).send(error);
 
-app.get('/api/docs/:id',(req,res) => {
-  const doc = docs.find(c => c.id === parseInt(req.params.id));
-  if(!doc) res.status(404).send('The document with the given id wasnt found');
-   res.send(doc);
-});
-
-app.post('/api/create',(req,res) => {
-  const schema = {
-    sname: Joi.string().min(3).required(),
-    lname: Joi.string().min(3).required(),
-    image: Joi.string().min(3).required(),
-    description: Joi.string(),
-    dtime: Joi.string(),
-    level: Joi.string(),
-    link: Joi.string(),
-    material: Joi.string(),
-    pdfurl: Joi.string(),
-    tags: Joi.array().items(Joi.string()),
-    images: Joi.array().items(Joi.string()),
-    type: Joi.string(),
-    isPublished: Joi.boolean()
-  };
-
-  const result = Joi.validate(req.body, schema);
-  if(result.error){
-    res.status(400).send(result.error);
-    return;
+  let product = new Product(req.body);
+    
+  try{
+    product = await product.save();
+    console.log(product.id);
+    res.send(product.id);
   }
-
-  createProduct(req.body).then(
-    (result) => res.send(result)
-  );
+  catch(ex){
+    for(field in ex.errors)
+      console.log(ex.errors[field]);
+  }  
 });
 
-app.get('/api/products',(req,res) => {
-  getProduct().then(
-    (result) => res.send(result)
-  );
+app.get('/api/products', async (req,res) => {
+    const products = await Product
+        .find().sort('sname');
+    console.log(products);
+    res.send(products)
 });
 
+app.get('/api/product/:id', async (req,res) => {
+  const product = await Product
+    .findById(req.params.id);
+
+  if(!product) return res.status(400).send(`There is no product with id [${req.params.id}]`);
+
+  console.log(product);
+  res.send(product)
+});
+
+app.put('/api/product/:id', async (req,res) => {
+  const {error} = validate(req.body)
+  if(error) return res.status(400).send(error);
+  
+  const product = await Product
+    .findByIdAndUpdate(req.params.id, {sname: req.body.sname}, {new: true})
+
+  if(!product) return res.status(400).send(`There is no product with id [${req.params.id}]`);
+
+  res.send(product)
+});
+
+app.delete('/api/product/:id', async (req,res) => { 
+  const product = await Product
+    .findByIdAndRemove(req.params.id)
+
+  if(!product) return res.status(400).send(`There is no product with id [${req.params.id}]`);
+
+  res.send(product.id)
+});
 
 const server = app.listen(process.env.PORT || 8080, function () {
   var port = server.address().port;

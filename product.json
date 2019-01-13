@@ -1,0 +1,23 @@
+{
+    "tags": [
+        "игрушка",
+        "машинка"
+    ],
+    "images": [
+        "assets\\catalog\\Машинка_80х\\Сборка.jpg",
+        "assets\\catalog\\Машинка_80х\\Шаг 4.jpg",
+        "assets\\catalog\\Машинка_80х\\Заготовка для кабины.jpg",
+        "assets\\catalog\\Машинка_80х\\Кабина_схема пила.jpg"
+    ],
+    "sname": "Машинка 80х",
+    "lname": "Машинка 80х",
+    "image": "assets/catalog/Машинка_80х/Сборка.jpg",
+    "description": "Деревянная игрушка в виде машинки 80-х годов СССР. Изготавливается из одного мебельного щита или фанеры за несколько часов. Рекомендовано для новичков.",
+    "dtime": "3",
+    "level": "легкий",
+    "link": "mashinka-80-x.html",
+    "material": "доска,фанера,мебельный щит",
+    "pdfurl": "https://firebasestorage.googleapis.com/v0/b/guidein-c7f6f.appspot.com/o/%D0%9C%D0%B0%D1%88%D0%B8%D0%BD%D0%BA%D0%B0%2080-%D1%85_%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8E.pdf?alt=media&token=2e694f14-4cf8-486f-842b-3497bf278a48",
+    "type": "игрушка",
+    "isPublished": true
+}
