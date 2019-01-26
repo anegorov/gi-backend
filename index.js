@@ -1,74 +1,42 @@
-const {Product, validate} = require('./models/product');
 const express = require('express');
 const app = express();
-
+const render = require('./routs/render');
+const pug = require('pug');
+const path = require('path');
 const mongoose = require('mongoose');
+const {Product, validate} = require('./models/product');
 
 mongoose.connect('mongodb://giuser:giuser1234@ds024748.mlab.com:24748/guidein', { useNewUrlParser: true })
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.error('Could not connect to MongoDB...', err));
 
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use('/api/render', render);
+
+const texts = [
+  { title: 'Hey1', message: 'Hello there!1' },
+  { title: 'Hey2', message: 'Hello there!2' },
+  { title: 'Hey3', message: 'Hello there!3' }
+]
 
 app.get('/',(req,res) => {
    res.send('App developed by Andrey Egorov.');
 });
 
-app.post('/api/create', async (req,res) => {
-  
-  const {error} = validate(req.body)
-  if(error) return res.status(400).send(error);
+app.get('/render/:link', async function (req, res) {
 
-  let product = new Product(req.body);
-    
-  try{
-    product = await product.save();
-    console.log(product.id);
-    res.send(product.id);
-  }
-  catch(ex){
-    for(field in ex.errors)
-      console.log(ex.errors[field]);
-  }  
-});
-
-app.get('/api/products', async (req,res) => {
-    const products = await Product
-        .find().sort('sname');
-    console.log(products);
-    res.send(products)
-});
-
-app.get('/api/product/:id', async (req,res) => {
   const product = await Product
-    .findById(req.params.id);
-
-  if(!product) return res.status(400).send(`There is no product with id [${req.params.id}]`);
+    .find({link: req.params.link});
 
   console.log(product);
-  res.send(product)
-});
 
-app.put('/api/product/:id', async (req,res) => {
-  const {error} = validate(req.body)
-  if(error) return res.status(400).send(error);
+  if(!product) res.status(400).send(`There is no page with link [${req.params.id}]`); 
   
-  const product = await Product
-    .findByIdAndUpdate(req.params.id, {sname: req.body.sname}, {new: true})
-
-  if(!product) return res.status(400).send(`There is no product with id [${req.params.id}]`);
-
-  res.send(product)
-});
-
-app.delete('/api/product/:id', async (req,res) => { 
-  const product = await Product
-    .findByIdAndRemove(req.params.id)
-
-  if(!product) return res.status(400).send(`There is no product with id [${req.params.id}]`);
-
-  res.send(product.id)
+  res.render('index', { page: product});
 });
 
 const server = app.listen(process.env.PORT || 8080, function () {
