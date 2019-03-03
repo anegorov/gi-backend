@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const render = require('./routs/render');
+const users = require('./routs/users');
+const auth = require('./routs/auth');
 const path = require('path');
 const mongoose = require('mongoose');
 const {Product, validate} = require('./models/product');
@@ -16,12 +18,12 @@ mongoose.connect('mongodb://giuser:giuser1234@ds024748.mlab.com:24748/guidein', 
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.error('Could not connect to MongoDB...', err));
 
-app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use('/api/render', render);
+app.use('/api/users', users);
+app.use('/api/auth', auth);
 
 function getImageUrl(imageName){
   return cloudinary.image(imageName, { alt: "Image num one" });
