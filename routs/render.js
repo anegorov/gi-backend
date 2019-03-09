@@ -24,7 +24,7 @@ router.get('/products', async (req,res) => {
     const products = await Product
         .find().sort('sname');
     console.log(products);
-    res.send(products)
+    res.header('Access-Control-Allow-Origin','*').send(products)
 });
   
 router.get('/product/:id', async (req,res) => {

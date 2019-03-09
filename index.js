@@ -7,6 +7,12 @@ const path = require('path');
 const mongoose = require('mongoose');
 const {Product, validate} = require('./models/product');
 const cloudinary = require('cloudinary');
+const config = require('config');
+
+if(!config.get('jwtPrivateKey')){
+  console.error('Fatal error: jwtPrivateKey is not defined.');
+  process.exit(1);
+}
 
 cloudinary.config({ 
   cloud_name: 'dx8upsrgu', 
