@@ -36,6 +36,8 @@ router.get('/product/:id', async (req,res) => {
   if(!product) return res.status(400).send(`There is no product with id [${req.params.id}]`);
 
   console.log(product);
+      // res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.send(product)
 });
   
