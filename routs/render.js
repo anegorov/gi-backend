@@ -24,8 +24,8 @@ router.get('/products', async (req,res) => {
     const products = await Product
         .find().sort('sname');
     console.log(products);
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    // res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.send(products);
 });
   
