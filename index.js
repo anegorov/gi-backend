@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const {Product, validate} = require('./models/product');
 const cloudinary = require('cloudinary');
 const config = require('config');
-const cors = require('cors');
+// const cors = require('cors');
 
 if(!config.get('jwtPrivateKey')){
   console.error('Fatal error: jwtPrivateKey is not defined.');
@@ -34,7 +34,7 @@ app.use(express.urlencoded({extended:true}));
 //   res.append('Access-Control-Allow-Headers', 'Content-Type');
 //   next();
 // });
-app.use(cors());
+// app.use(cors());
 app.use('/api/render', render);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
