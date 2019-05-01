@@ -36,6 +36,16 @@ router.get('/product/:id', async (req,res) => {
   console.log(product);
   res.send(product)
 });
+
+router.get('/product/:link', async (req,res) => {
+  const product = await Product
+    .findOne({link: req.params.link});
+
+  if(!product) return res.status(400).send(`There is no product with link [${req.params.id}]`);
+
+  console.log(product);
+  res.send(product)
+});
   
 router.put('/product/:id', async (req,res) => {
   const {error} = validate(req.body)
