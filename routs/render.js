@@ -37,7 +37,7 @@ router.get('/product/:id', async (req,res) => {
   res.send(product)
 });
 
-router.get('/product/:link', async (req,res) => {
+router.get('/product/link/:link', async (req,res) => {
   const product = await Product
     .findOne({link: req.params.link});
 
